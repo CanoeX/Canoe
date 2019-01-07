@@ -1,1 +1,1 @@
-# Canoe: Simple and powerful open source reddit client
+# Canoe: simple and powerful open source reddit client
