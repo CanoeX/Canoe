@@ -82,3 +82,6 @@ tags
 ### Carthage ###
 Carthage/Checkouts
 Carthage/Build
+
+### Cocoapods ###
+Pods
