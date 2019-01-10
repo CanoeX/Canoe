@@ -28,7 +28,7 @@ target "Canoe" do
 
   # Utils
   pod "R.swift"
-  #   pod 'ReactorKit'
+  pod "ReactorKit"
   #   pod 'RxOptional'
   #   pod 'RxSwiftExt'
   pod "RxSwift"

@@ -1,0 +1,11 @@
+framework module RxNimble {
+  umbrella header "RxNimble-umbrella.h"
+
+  export *
+  module * { export * }
+}
+
+module RxNimble.Swift {
+    header "RxNimble-Swift.h"
+    requires objc
+}
