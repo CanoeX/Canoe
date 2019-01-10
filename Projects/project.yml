@@ -22,6 +22,7 @@ targetTemplates:
       - framework: ../../Rome/Rswift.framework
       - framework: ../../Rome/RxCocoa.framework
       - framework: ../../Rome/RxSwift.framework
+      - framework: ../../Rome/RxAtomic.framework
   BaseApp:
     type: application
     platform: iOS

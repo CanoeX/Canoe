@@ -8,5 +8,5 @@ branches:
   only:
     - master
 xcode_workspace: Canoe.xcworkspace
-xcode_scheme: ApplicationTests
+xcode_scheme: Canoe
 xcode_destination: platform=iOS Simulator,OS=12.1,name=iPhone 8

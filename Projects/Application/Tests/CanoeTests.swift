@@ -1,8 +1,8 @@
 import UIKit
 import XCTest
-//@testable import App
+@testable import Canoe
 
-class AppTests: XCTestCase {
+class CanoeTests: XCTestCase {
 
     override func setUp() {
         super.setUp()

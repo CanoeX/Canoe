@@ -3,14 +3,10 @@ include: ../project.yml
 targets:
   Canoe:
     templates: [BaseApp, BaseDependencies]
-    settings:
-      base:
-        PRODUCT_BUNDLE_IDENTIFIER: com.CanoeX.Canoe
-        PRODUCT_NAME: Canoe
     testTargets:
-      - ApplicationTests
+      - CanoeTests
 
-  ApplicationTests:
+  CanoeTests:
     templates: [BaseAppTests, BaseTestDependencies]
     dependencies:
       - target: Canoe
