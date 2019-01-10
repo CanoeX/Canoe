@@ -1,0 +1,56 @@
+options:
+  minimumXcodeGenVersion: 1.11.0
+  groupSortPosition: top
+  transitivelyLinkDependencies: true
+  bundleIdPrefix: com.CanoeX
+  deploymentTarget:
+    iOS: 9
+attributes:
+  ORGANIZATIONNAME: CanoeX
+settings:
+  base:
+    ENABLE_BITCODE: NO
+    FRAMEWORK_SEARCH_PATHS: $(inherited) $(PROJECT_DIR)/../../Rome
+targetTemplates:
+  BaseDependencies:
+    dependencies:
+      - framework: ../../Rome/Crashlytics.framework
+        embed: false
+      - framework: ../../Rome/Fabric.framework
+        embed: false
+      - framework: ../../Rome/ReactorKit.framework
+      - framework: ../../Rome/Rswift.framework
+      - framework: ../../Rome/RxCocoa.framework
+      - framework: ../../Rome/RxSwift.framework
+  BaseApp:
+    type: application
+    platform: iOS
+    sources:
+      - Sources/
+      - Info.plist
+      - Resources/
+    settings:
+      base:
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        INFOPLIST_FILE: Info.plist
+        CODE_SIGN_STYLE: Automatic
+#    prebuildScripts:
+#      - script: '${SRCROOT}/../../Scripts/rswift generate ${SRCROOT}/Sources/Generated'
+#        name: R.swift
+    postbuildScripts:
+      - path: ../../Scripts/strip-frameworks.sh
+        name: Strip Unused Architectures from Frameworks
+        runOnlyWhenInstalling: true
+  BaseAppTests:
+    type: bundle.unit-test
+    platform: iOS
+    sources:
+      - Tests/
+    settings:
+      base:
+        INFOPLIST_FILE: Tests.plist
+  BaseTestDependencies:
+    dependencies:
+      - framework: ../../Rome/Quick.framework
+      - framework: ../../Rome/RxNimble.framework
+      - framework: ../../Rome/Nimble.framework
