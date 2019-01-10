@@ -72,12 +72,8 @@ tags
 [._]*.un~
 
 ### Xcode ###
-*.xcodeproj/*
-!*.xcodeproj/project.pbxproj
-!*.xcodeproj/xcshareddata/
-!*.xcworkspace/contents.xcworkspacedata
-/*.gcno
-**/xcshareddata/WorkspaceSettings.xcsettings
+*.xcodeproj
+*.xcworkspace
 
 ### Carthage ###
 Carthage/Checkouts
