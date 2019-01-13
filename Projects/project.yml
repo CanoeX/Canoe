@@ -55,3 +55,4 @@ targetTemplates:
       - framework: ../../Rome/Quick.framework
       - framework: ../../Rome/RxNimble.framework
       - framework: ../../Rome/Nimble.framework
+      - framework: ../../Rome/RxBlocking.framework
