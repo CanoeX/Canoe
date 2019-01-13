@@ -33,3 +33,7 @@ frameworks:
 
 xcodeGenerate:
 	killall Xcode || true && make generate && open $(WORKSPACE)
+
+clean:
+	rm -rf Canoe.xcworkspace
+	find Projects -name "*.xcodeproj" -delete
