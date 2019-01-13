@@ -12,7 +12,7 @@ dependencies:
 	brew install xcodegen || true
 	brew install swiftlint || true
 
-generate:
+generate: clean
 	# Generate R.swift empty files and project files
 	for i in Projects/*/project.yml; do \
 		mkdir -p "$${i%/*}/Sources/Generated" && \
@@ -32,7 +32,6 @@ frameworks:
 	for i in Rome/*.framework;do echo "- framework: ../../"$$i | sort;done
 
 xcodeGenerate:
-	make clean
 	killall Xcode || true && make generate && open $(WORKSPACE)
 
 clean:
