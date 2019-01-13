@@ -32,6 +32,7 @@ frameworks:
 	for i in Rome/*.framework;do echo "- framework: ../../"$$i | sort;done
 
 xcodeGenerate:
+	make clean
 	killall Xcode || true && make generate && open $(WORKSPACE)
 
 clean:
