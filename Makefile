@@ -12,7 +12,7 @@ dependencies:
 	brew install xcodegen || true
 	brew install swiftlint || true
 
-generate:
+generate: clean
 	# Generate R.swift empty files and project files
 	for i in Projects/*/project.yml; do \
 		mkdir -p "$${i%/*}/Sources/Generated" && \
@@ -36,4 +36,4 @@ xcodeGenerate:
 
 clean:
 	rm -rf Canoe.xcworkspace
-	find Projects -name "*.xcodeproj" -delete
+	rm -rf Projects/*/*.xcodeproj
