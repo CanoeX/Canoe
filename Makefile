@@ -27,7 +27,7 @@ generate:
 	echo "</Workspace>" >> $(WORKSPACEDATA)
 
 frameworks:
-	bundle exec pod install
+	bundle exec pod install --repo-update
 	cp Pods/R.swift/rswift Scripts/
 	for i in Rome/*.framework;do echo "- framework: ../../"$$i | sort;done
 
