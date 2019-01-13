@@ -36,4 +36,4 @@ xcodeGenerate:
 
 clean:
 	rm -rf Canoe.xcworkspace
-	find Projects -name "*.xcodeproj" -delete
+	rm -rf Projects/*/*.xcodeproj
