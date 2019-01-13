@@ -3,6 +3,7 @@ language: objective-c
 osx_image: xcode10.1
 install:
   - make dependencies
+  - make frameworks
   - make generate
 branches:
   only:
