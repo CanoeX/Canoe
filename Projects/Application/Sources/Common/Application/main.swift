@@ -1,5 +1,5 @@
 //
-// Copyright © 2019 Igor Tarasenko
+// Created by Igor Tarasenko
 // Licensed under the MIT license
 //
 

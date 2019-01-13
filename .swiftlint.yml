@@ -1,45 +1,64 @@
+included:
+  - Projects
+excluded:
+  - Projects/Application/Sources/Generated
 disabled_rules:
   - todo
-
 opt_in_rules:
   - array_init
   - attributes
   - closure_end_indentation
   - closure_spacing
   - collection_alignment
-  - contains_over_first_not_nili
+  - contains_over_first_not_nil
   - convenience_type
   - discouraged_object_literal
   - discouraged_optional_boolean
-  # - discouraged_optional_collection
   - empty_count
   - empty_string
   - explicit_init
+  - extension_access_modifier
   - fatal_error_message
   - first_where
   - force_unwrapping
   - identical_operands
   - implicit_return
-  - implicitly_unwrapped_optional
   - joined_default_parameter
+  - let_var_whitespace
   - last_where
   - legacy_random
   - literal_expression_end_indentation
+  - lower_acl_than_parent
   - multiline_arguments_brackets
   - multiline_literal_brackets
   - multiline_parameters_brackets
   - nimble_operator
+  - number_separator
+  - object_literal
   - operator_usage_whitespace
+  - overridden_super_call
+  - pattern_matching_keywords
+  - prohibited_interface_builder
   - prohibited_super_call
   - redundant_nil_coalescing
+  - redundant_type_annotation
+  - single_test_class
   - sorted_first_last
+  - sorted_imports
   - static_operator
   - toggle_bool
   - unneeded_parentheses_in_closure_argument
   - unused_import
   - vertical_parameter_alignment_on_call
   - vertical_whitespace_closing_braces
+  - vertical_whitespace_opening_braces
   - yoda_condition
 
-excluded:
-  - Carthage
+identifier_name:
+  excluded:
+    - id
+number_separator:
+  minimum_length: 5
+file_name:
+  excluded:
+    - main.swift
