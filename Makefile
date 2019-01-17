@@ -1,5 +1,7 @@
 WORKSPACE = Canoe.xcworkspace
 WORKSPACEDATA = $(WORKSPACE)/contents.xcworkspacedata
+WORKSPACESHAREDDATA = $(WORKSPACE)/xcshareddata
+WORKSPACESHAREDDATASETTINGS = $(WORKSPACESHAREDDATA)/WorkspaceSettings.xcsettings
 
 .PHONY: all bootstrap dependencies generate frameworks xcodeGenerate clean hooks
 
@@ -25,6 +27,16 @@ generate: clean
 	for i in Projects/*/*.xcodeproj;do \
 		echo "<FileRef location = \"group:$$i\"></FileRef>" >> $(WORKSPACEDATA);done
 	echo "</Workspace>" >> $(WORKSPACEDATA)
+	# Set legacy build system type
+	mkdir -p $(WORKSPACESHAREDDATA)
+	echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" > $(WORKSPACESHAREDDATASETTINGS)
+	echo "<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">" >> $(WORKSPACESHAREDDATASETTINGS)
+	echo "<plist version=\"1.0\">" >> $(WORKSPACESHAREDDATASETTINGS)
+	echo "<dict>" >> $(WORKSPACESHAREDDATASETTINGS)
+	echo "<key>BuildSystemType</key>" >> $(WORKSPACESHAREDDATASETTINGS)
+	echo "<string>Original</string>" >> $(WORKSPACESHAREDDATASETTINGS)
+	echo "</dict>" >> $(WORKSPACESHAREDDATASETTINGS)
+	echo "</plist>" >> $(WORKSPACESHAREDDATASETTINGS)
 
 frameworks:
 	bundle exec pod install --repo-update
