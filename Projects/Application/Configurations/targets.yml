@@ -1,0 +1,4 @@
+include:
+  - Targets/Canoe.yml
+  - Targets/CanoeTests.yml
+  - Targets/CanoeUITests.yml

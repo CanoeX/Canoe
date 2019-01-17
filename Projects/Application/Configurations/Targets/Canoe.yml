@@ -1,0 +1,17 @@
+targets:
+  Canoe:
+    platform: iOS
+    type: application
+    sources:
+      - Sources
+      - Configurations/Configs
+    dependencies:
+      - framework: ../../Rome/Crashlytics.framework
+        embed: false
+      - framework: ../../Rome/Fabric.framework
+        embed: false
+      - framework: ../../Rome/ReactorKit.framework
+      - framework: ../../Rome/Rswift.framework
+      - framework: ../../Rome/RxCocoa.framework
+      - framework: ../../Rome/RxSwift.framework
+      - framework: ../../Rome/RxAtomic.framework

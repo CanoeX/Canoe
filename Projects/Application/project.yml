@@ -1,12 +1,7 @@
-name: Application
-include: ../project.yml
-targets:
-  Canoe:
-    templates: [BaseApp, BaseDependencies]
-    testTargets:
-      - CanoeTests
+include:
+  - Configurations/options.yml
+  - Configurations/targets.yml
+  - Configurations/schemes.yml
+  - Configurations/configs.yml
 
-  CanoeTests:
-    templates: [BaseAppTests, BaseTestDependencies]
-    dependencies:
-      - target: Canoe
+name: Canoe

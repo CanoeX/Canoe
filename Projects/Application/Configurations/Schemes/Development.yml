@@ -1,0 +1,21 @@
+schemes:
+  Development:
+    build:
+      parallelizeBuild: true
+      targets:
+        Canoe: all
+        CanoeTests: testing
+        CanoeUITests: testing
+    run:
+      config: Development
+    test:
+      config: Development
+      targets: 
+        - CanoeTests
+        - CanoeUITests
+    profile:
+      config: Development
+    analyze:
+      config: Development
+    archive:
+      config: Development
