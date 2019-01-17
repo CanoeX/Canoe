@@ -1,7 +1,7 @@
 WORKSPACE = Canoe.xcworkspace
 WORKSPACEDATA = $(WORKSPACE)/contents.xcworkspacedata
 
-.PHONY: all bootstrap dependencies generate frameworks xcodeGenerate
+.PHONY: all bootstrap dependencies generate frameworks xcodeGenerate clean hooks
 
 all: generate
 
@@ -37,3 +37,6 @@ xcodeGenerate:
 clean:
 	rm -rf Canoe.xcworkspace
 	rm -rf Projects/*/*.xcodeproj
+
+hooks:
+	$(shell ./Scripts/Git/Hooks/install.sh)
