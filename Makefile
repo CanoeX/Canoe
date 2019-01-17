@@ -52,3 +52,18 @@ clean:
 
 hooks:
 	$(shell ./Scripts/Git/Hooks/install.sh)
+
+test:
+ifeq ($(TRAVIS_BRANCH), "MASTER")
+	set -o pipefail && xcodebuild \
+	-workspace Canoe.xcworkspace \
+	-scheme Production \
+	-destination platform\=iOS\ Simulator,OS\=12.1,name\=iPhone\ 8 \
+	build test | xcpretty
+else
+	set -o pipefail && xcodebuild \
+	-workspace Canoe.xcworkspace \
+	-scheme Development \
+	-destination platform\=iOS\ Simulator,OS\=12.1,name\=iPhone\ 8 \
+	build test | xcpretty
+endif
