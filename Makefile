@@ -51,7 +51,7 @@ clean:
 	rm -rf Projects/*/*.xcodeproj
 
 hooks:
-	$(shell ./Scripts/Git/Hooks/install.sh)
+	./Scripts/Git/Hooks/install.sh
 
 test:
 ifeq ($(TRAVIS_BRANCH), "MASTER")
