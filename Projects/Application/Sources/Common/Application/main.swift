@@ -7,4 +7,15 @@ import UIKit
 
 let isRunningTests = NSClassFromString("XCTestCase") != nil
 let appDelegateClass = isRunningTests ? nil : NSStringFromClass(AppDelegate.self)
-UIApplicationMain(CommandLine.argc, CommandLine.unsafeArgv, nil, appDelegateClass)
+
+// Temporary solution for travis
+// UIApplicationMain(CommandLine.argc, CommandLine.unsafeArgv, nil, appDelegateClass)
+UIApplicationMain(
+    CommandLine.argc,
+    UnsafeMutableRawPointer(CommandLine.unsafeArgv)
+        .bindMemory(
+            to: UnsafeMutablePointer<Int8>.self,
+            capacity: Int(CommandLine.argc)),
+    nil,
+    appDelegateClass
+)
