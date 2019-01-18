@@ -54,7 +54,7 @@ hooks:
 	./Scripts/Git/Hooks/install.sh
 
 test:
-ifeq ($(TRAVIS_BRANCH), MASTER)
+ifeq ($(TRAVIS_BRANCH), master)
 	$(eval $@_SCHEME := Production)
 else
 	$(eval $@_SCHEME := Development)
