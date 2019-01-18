@@ -3,7 +3,7 @@ WORKSPACEDATA = $(WORKSPACE)/contents.xcworkspacedata
 WORKSPACESHAREDDATA = $(WORKSPACE)/xcshareddata
 WORKSPACESHAREDDATASETTINGS = $(WORKSPACESHAREDDATA)/WorkspaceSettings.xcsettings
 
-.PHONY: all bootstrap dependencies generate frameworks xcodeGenerate clean hooks
+.PHONY: all bootstrap dependencies generate frameworks xcodeGenerate clean hooks test
 
 all: generate
 
@@ -54,16 +54,14 @@ hooks:
 	./Scripts/Git/Hooks/install.sh
 
 test:
-ifeq ($(TRAVIS_BRANCH), "MASTER")
-	set -o pipefail && xcodebuild \
-	-workspace Canoe.xcworkspace \
-	-scheme Production \
-	-destination platform\=iOS\ Simulator,OS\=12.1,name\=iPhone\ 8 \
-	build test | xcpretty
+ifeq ($(TRAVIS_BRANCH), MASTER)
+	$(eval $@_SCHEME := Production)
 else
+	$(eval $@_SCHEME := Development)
+endif
 	set -o pipefail && xcodebuild \
 	-workspace Canoe.xcworkspace \
-	-scheme Development \
+	-scheme $($@_SCHEME) \
 	-destination platform\=iOS\ Simulator,OS\=12.1,name\=iPhone\ 8 \
 	build test | xcpretty
-endif
+

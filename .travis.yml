@@ -6,3 +6,7 @@ install:
   - make generate
 script:
   - make test
+branches:
+  only:
+  - master
+  - develop

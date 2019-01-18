@@ -10,7 +10,7 @@ let appDelegateClass = isRunningTests ? nil : NSStringFromClass(AppDelegate.self
 
 // Temporary solution for travis
 // UIApplicationMain(CommandLine.argc, CommandLine.unsafeArgv, nil, appDelegateClass)
-UIApplicationMain(
+_ = UIApplicationMain(
     CommandLine.argc,
     UnsafeMutableRawPointer(CommandLine.unsafeArgv)
         .bindMemory(
