@@ -43,6 +43,7 @@ hooks:
 	./Scripts/Git/Hooks/install.sh
 
 test:
+	ls Projects/Application/Canoe.xcodeproj/xcshareddata/xcschemes
 ifeq ($(TRAVIS_BRANCH), master)
 	$(eval $@_SCHEME := Production)
 else
@@ -50,7 +51,7 @@ else
 endif
 	set -o pipefail && xcodebuild \
 	clean test \
-	-project Projects/Application/Canoe.xcodeproj \
+	-workspace Canoe.xcworkspace \
 	-scheme Canoe\ $($@_SCHEME) \
 	-destination platform\=iOS\ Simulator,OS\=12.1,name\=iPhone\ 8 \
 	CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO ONLY_ACTIVE_ARCH=NO \
