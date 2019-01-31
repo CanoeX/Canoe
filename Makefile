@@ -9,9 +9,10 @@ bootstrap: dependencies frameworks generate
 
 dependencies:
 	bundle install
-	brew install xcodegen || true
-	brew install swiftlint || true
-	brew install pmd || true
+	brew update
+	brew outdated xcodegen || brew upgrade xcodegen
+	brew outdated swiftlint || brew upgrade swiftlint
+	brew outdated pmd || brew upgrade pmd
 
 generate: clean
 	# Generate R.swift empty files and project files
