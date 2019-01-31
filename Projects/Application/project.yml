@@ -1,7 +1,11 @@
 include:
-  - Configurations/options.yml
-  - Configurations/targets.yml
-  - Configurations/schemes.yml
-  - Configurations/configs.yml
+  - path: Configurations/options.yml
+    relativePaths: false
+  - path: Configurations/targets.yml
+    relativePaths: false
+  - path: Configurations/schemes.yml
+    relativePaths: false
+  - path: Configurations/configs.yml
+    relativePaths: false
 
 name: Canoe

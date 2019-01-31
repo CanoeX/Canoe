@@ -1,4 +1,7 @@
 include:
-  - Targets/Canoe.yml
-  - Targets/CanoeTests.yml
-  - Targets/CanoeUITests.yml
+  - path: Targets/Canoe.yml
+    relativePaths: false
+  - path: Targets/CanoeTests.yml
+    relativePaths: false
+  - path: Targets/CanoeUITests.yml
+    relativePaths: false

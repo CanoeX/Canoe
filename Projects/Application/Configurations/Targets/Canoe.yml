@@ -4,7 +4,6 @@ targets:
     type: application
     sources:
       - Sources
-      - Configurations/Configs
     dependencies:
       - framework: ../../Rome/Crashlytics.framework
         embed: false

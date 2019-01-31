@@ -1,3 +1,5 @@
 include:
-  - Schemes/Development.yml
-  - Schemes/Production.yml
+  - path: Schemes/Development.yml
+    relativePaths: false
+  - path: Schemes/Production.yml
+    relativePaths: false
