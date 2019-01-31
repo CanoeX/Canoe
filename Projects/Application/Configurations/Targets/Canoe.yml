@@ -3,8 +3,10 @@ targets:
     platform: iOS
     type: application
     configFiles:
-      Development: Configurations/Configs/Development.xcconfig
-      Production: Configurations/Configs/Production.xcconfig
+      Development Debug: Configurations/Configs/Development.xcconfig
+      Development Release: Configurations/Configs/Development.xcconfig
+      Production Debug: Configurations/Configs/Production.xcconfig
+      Production Release: Configurations/Configs/Production.xcconfig
     sources:
       - Sources
     dependencies:
@@ -17,6 +19,14 @@ targets:
       - framework: ../../Rome/RxCocoa.framework
       - framework: ../../Rome/RxSwift.framework
       - framework: ../../Rome/RxAtomic.framework
+    scheme:
+      testTargets:
+        - CanoeTests
+        - CanoeUITests
+      configVariants:
+        - Development
+        - Production
+      gatherCoverageData: true
     preBuildScripts:
       - name: R.swift
         script: |

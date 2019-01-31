@@ -1,5 +1,0 @@
-include:
-  - path: Schemes/Development.yml
-    relativePaths: false
-  - path: Schemes/Production.yml
-    relativePaths: false

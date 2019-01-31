@@ -43,7 +43,6 @@ hooks:
 	./Scripts/Git/Hooks/install.sh
 
 test:
-	xcodebuild -workspace Canoe.xcworkspace -list
 ifeq ($(TRAVIS_BRANCH), master)
 	$(eval $@_SCHEME := Production)
 else
@@ -51,7 +50,7 @@ else
 endif
 	set -o pipefail && xcodebuild \
 	-workspace Canoe.xcworkspace \
-	-scheme $($@_SCHEME) \
+	-scheme Canoe\ $($@_SCHEME) \
 	-destination platform\=iOS\ Simulator,OS\=12.1,name\=iPhone\ 8 \
-	build test | xcpretty
+	clean test | xcpretty
 
