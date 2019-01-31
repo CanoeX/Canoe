@@ -49,8 +49,10 @@ else
 	$(eval $@_SCHEME := Development)
 endif
 	set -o pipefail && xcodebuild \
-	-workspace Canoe.xcworkspace \
+	clean test \
+	-project Projects/Application/Canoe.xcodeproj \
 	-scheme Canoe\ $($@_SCHEME) \
 	-destination platform\=iOS\ Simulator,OS\=12.1,name\=iPhone\ 8 \
-	clean test | xcpretty
+	CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO ONLY_ACTIVE_ARCH=NO \
+	| xcpretty
 
