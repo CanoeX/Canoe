@@ -10,8 +10,11 @@ schemes:
       config: Production
     test:
       config: Production
+      gatherCoverageData: true
       targets: 
-        - CanoeTests
+        - name: CanoeTests
+          parallelizable: true
+          randomExecutionOrder: true
         - CanoeUITests
     profile:
       config: Production

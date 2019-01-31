@@ -10,8 +10,11 @@ schemes:
       config: Development
     test:
       config: Development
+      gatherCoverageData: true
       targets: 
-        - CanoeTests
+        - name: CanoeTests
+          parallelizable: true
+          randomExecutionOrder: true
         - CanoeUITests
     profile:
       config: Development

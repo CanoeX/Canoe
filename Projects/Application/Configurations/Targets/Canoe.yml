@@ -14,3 +14,21 @@ targets:
       - framework: ../../Rome/RxCocoa.framework
       - framework: ../../Rome/RxSwift.framework
       - framework: ../../Rome/RxAtomic.framework
+    preBuildScripts:
+      - name: R.swift
+        script: |
+          "../../Scripts/rswift" generate "$SRCROOT/Sources/Generated/R.generated.swift"
+        inputFiles:
+          - $TEMP_DIR/rswift-lastrun
+        outputFiles:
+          - $SRCROOT/Sources/Generated/R.generated.swift
+      - name: Swiftlint autocorrect
+        script: cd ../.. && swiftlint autocorrect
+    postCompileScripts:
+      - name: Swiftlint
+        script: cd ../.. && swiftlint
+    postbuildScripts:
+      - path: ../../Scripts/strip-frameworks.sh
+        name: Strip Unused Architectures from Frameworks
+        runOnlyWhenInstalling: true
+    

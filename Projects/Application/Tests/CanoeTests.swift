@@ -3,8 +3,8 @@
 // Licensed under the MIT license
 //
 
-import XCTest
 @testable import Canoe
+import XCTest
 
 class CanoeTests: XCTestCase {
     func testExample() {

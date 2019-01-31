@@ -15,7 +15,8 @@ _ = UIApplicationMain(
     UnsafeMutableRawPointer(CommandLine.unsafeArgv)
         .bindMemory(
             to: UnsafeMutablePointer<Int8>.self,
-            capacity: Int(CommandLine.argc)),
+            capacity: Int(CommandLine.argc)
+        ),
     nil,
     appDelegateClass
 )
