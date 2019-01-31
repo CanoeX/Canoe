@@ -43,6 +43,7 @@ hooks:
 	./Scripts/Git/Hooks/install.sh
 
 test:
+	xcodebuild -workspace Canoe.xcworkspace -list
 ifeq ($(TRAVIS_BRANCH), master)
 	$(eval $@_SCHEME := Production)
 else
