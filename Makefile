@@ -44,7 +44,6 @@ hooks:
 	./Scripts/Git/Hooks/install.sh
 
 test:
-	ls Projects/Application/Canoe.xcodeproj/xcshareddata/xcschemes
 ifeq ($(TRAVIS_BRANCH), master)
 	$(eval $@_SCHEME := Production)
 else
