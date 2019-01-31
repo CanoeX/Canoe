@@ -6,3 +6,7 @@ targets:
       - Tests
     dependencies:
       - target: Canoe
+    settings:
+      configs:
+        Development:
+          TEST_HOST: $(BUILT_PRODUCTS_DIR)/CanoeDev.app/CanoeDev

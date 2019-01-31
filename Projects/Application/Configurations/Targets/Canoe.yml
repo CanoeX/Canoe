@@ -2,6 +2,9 @@ targets:
   Canoe:
     platform: iOS
     type: application
+    configFiles:
+      Development: Configurations/Configs/Development.xcconfig
+      Production: Configurations/Configs/Production.xcconfig
     sources:
       - Sources
     dependencies:
@@ -27,8 +30,10 @@ targets:
     postCompileScripts:
       - name: Swiftlint
         script: cd ../.. && swiftlint
+      - name: Copy paste detector
+        script: cd ../.. && Scripts/cpd
     postbuildScripts:
-      - path: ../../Scripts/strip-frameworks.sh
-        name: Strip Unused Architectures from Frameworks
+      - name: Strip Unused Architectures from Frameworks
+        path: ../../Scripts/strip-frameworks.sh
         runOnlyWhenInstalling: true
     

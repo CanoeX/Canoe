@@ -67,3 +67,4 @@ Scripts/rswift
 
 ### Generated ###
 *.generated.swift
+cpd-output.xml
