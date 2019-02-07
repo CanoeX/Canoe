@@ -5,6 +5,8 @@
 
 import Foundation
 
+public let logger = Logger.self
+
 public enum Logger {
     public enum Destination {
         case print
@@ -133,7 +135,7 @@ public enum Logger {
 
 // MARK: - Code Sugar
 public extension Logger {
-    func verbose(
+    static func verbose(
         _ message: @autoclosure () -> Any,
         function: StaticString = #function,
         file: StaticString = #file,
@@ -143,7 +145,7 @@ public extension Logger {
         Logger.print(level: .verbose, message, function, file, line, column)
     }
 
-    func debug(
+    static func debug(
         _ message: @autoclosure () -> Any,
         function: StaticString = #function,
         file: StaticString = #file,
@@ -153,7 +155,7 @@ public extension Logger {
         Logger.print(level: .debug, message, function, file, line, column)
     }
 
-    func info(
+    static func info(
         _ message: @autoclosure () -> Any,
         function: StaticString = #function,
         file: StaticString = #file,
@@ -163,7 +165,7 @@ public extension Logger {
         Logger.print(level: .info, message, function, file, line, column)
     }
 
-    func warning(
+    static func warning(
         _ message: @autoclosure () -> Any,
         function: StaticString = #function,
         file: StaticString = #file,
@@ -173,7 +175,7 @@ public extension Logger {
         Logger.print(level: .warning, message, function, file, line, column)
     }
 
-    func error(
+    static func error(
         _ message: @autoclosure () -> Any,
         function: StaticString = #function,
         file: StaticString = #file,
