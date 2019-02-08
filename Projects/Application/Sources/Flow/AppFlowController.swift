@@ -3,11 +3,14 @@
 // Licensed under the MIT license
 //
 
+import RxCocoa
+import RxSwift
 import UIKit
 
 final class AppFlowController: UIViewController {
-    typealias Dependencies = UserServiceContainer
+    typealias Dependencies = UserServiceContainer & SubredditServiceContainer
 
+    private let disposeBag = DisposeBag()
     private let dependencies: Dependencies
 
     init(dependencies: Dependencies) {
@@ -20,7 +23,19 @@ final class AppFlowController: UIViewController {
         fatalError("init(coder:) is not implemented")
     }
 
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        showSplashScreen()
+    }
+
     func showSplashScreen() {
+        dependencies.subredditService
+            .getPosts(for: "popular")
+            .subscribe(
+                onNext: { logger.debug($0) },
+                onError: { logger.error($0) }
+            ).disposed(by: disposeBag)
     }
 
     func showMainFlow() {

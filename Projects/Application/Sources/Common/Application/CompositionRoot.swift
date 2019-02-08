@@ -3,9 +3,14 @@
 // Licensed under the MIT license
 //
 
-final class CompositionRoot: UserServiceContainer {
+final class CompositionRoot: UserServiceContainer, SubredditServiceContainer {
     lazy var userService: UserService = {
         DefaultUserService()
+    }()
+
+    lazy var subredditService: SubredditService = {
+        let dataSource = DefaultSubredditDataSource()
+        return DefaultSubredditService(dataSource: dataSource)
     }()
 
     private init() {}
