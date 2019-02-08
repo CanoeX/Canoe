@@ -13,6 +13,8 @@ final class AppFlowController: UIViewController {
     private let disposeBag = DisposeBag()
     private let dependencies: Dependencies
 
+    private var currentChildViewController: UIViewController?
+
     init(dependencies: Dependencies) {
         self.dependencies = dependencies
 
@@ -30,6 +32,28 @@ final class AppFlowController: UIViewController {
     }
 
     func showSplashScreen() {
+        removeCurrentChildViewController()
+
+        let reactor = SplashViewReactor()
+        reactor.callback
+            .bind { [weak self] callback in
+                switch callback {
+                case .didFinishLoading:
+                    self?.showMainFlow()
+                }
+            }
+            .disposed(by: disposeBag)
+
+        let viewController = SplashViewController(reactor: reactor)
+
+        addChild(viewController)
+        view.addSubview(viewController.view)
+        viewController.didMove(toParent: self)
+    }
+
+    func showMainFlow() {
+        removeCurrentChildViewController()
+
         dependencies.subredditService
             .getPosts(for: "popular")
             .subscribe(
@@ -38,6 +62,11 @@ final class AppFlowController: UIViewController {
             ).disposed(by: disposeBag)
     }
 
-    func showMainFlow() {
+    func removeCurrentChildViewController() {
+        guard let viewController = currentChildViewController else { return }
+
+        viewController.willMove(toParent: nil)
+        viewController.view.removeFromSuperview()
+        viewController.removeFromParent()
     }
 }
