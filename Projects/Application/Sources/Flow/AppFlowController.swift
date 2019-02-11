@@ -46,9 +46,7 @@ final class AppFlowController: UIViewController {
 
         let viewController = SplashViewController(reactor: reactor)
 
-        addChild(viewController)
-        view.addSubview(viewController.view)
-        viewController.didMove(toParent: self)
+        addAndMoveChild(viewController)
     }
 
     func showMainFlow() {
@@ -65,8 +63,6 @@ final class AppFlowController: UIViewController {
     func removeCurrentChildViewController() {
         guard let viewController = currentChildViewController else { return }
 
-        viewController.willMove(toParent: nil)
-        viewController.view.removeFromSuperview()
-        viewController.removeFromParent()
+        removeChild(viewController)
     }
 }
