@@ -13,7 +13,7 @@ final class SplashViewReactor: Reactor {
     }
 
     enum Action {
-        case viewDidLoad
+        case viewDidAppear
     }
 
     typealias Mutation = NoMutation
@@ -26,7 +26,7 @@ final class SplashViewReactor: Reactor {
 
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
-        case .viewDidLoad:
+        case .viewDidAppear:
             callback.onNext(.didFinishLoading)
             return .empty()
         }

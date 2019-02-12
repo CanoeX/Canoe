@@ -1,18 +1,18 @@
 //
-// Created by Igor Tarasenko on 2019-02-08.
+// Created by Igor Tarasenko on 2019-02-12.
 // Licensed under the MIT license
 //
 
-import Foundation
 import ReactorKit
 import RxCocoa
 import RxSwift
 import UIKit
 
-final class SplashViewController: UIViewController, View {
-    typealias Reactor = SplashViewReactor
+class BaseViewController<ViewReactor: Reactor, V: UIView>: UIViewController, View {
+    typealias Reactor = ViewReactor
 
     var disposeBag = DisposeBag()
+    lazy var currentView = V()
 
     init(reactor: Reactor) {
         super.init(nibName: nil, bundle: nil)
@@ -25,10 +25,9 @@ final class SplashViewController: UIViewController, View {
     }
 
     func bind(reactor: Reactor) {
-        rx
-            .methodInvoked(#selector(viewDidAppear))
-            .map { _ in Reactor.Action.viewDidAppear }
-            .bind(to: reactor.action)
-            .disposed(by: disposeBag)
+    }
+
+    override func loadView() {
+        view = currentView
     }
 }

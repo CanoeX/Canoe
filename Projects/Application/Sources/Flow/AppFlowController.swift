@@ -7,24 +7,10 @@ import Domain
 import RxCocoa
 import RxSwift
 import UIKit
+import Utilities
 
-final class AppFlowController: UIViewController {
-    typealias Dependencies = UserServiceContainer & SubredditServiceContainer
-
-    private let disposeBag = DisposeBag()
-    private let dependencies: Dependencies
-
+final class AppFlowController: BaseFlowController<UserServiceContainer & SubredditServiceContainer> {
     private var currentChildViewController: UIViewController?
-
-    init(dependencies: Dependencies) {
-        self.dependencies = dependencies
-
-        super.init(nibName: nil, bundle: nil)
-    }
-
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) is not implemented")
-    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -47,22 +33,26 @@ final class AppFlowController: UIViewController {
 
         let viewController = SplashViewController(reactor: reactor)
 
-        addAndMoveChild(viewController)
+        setAsCurrentChild(viewController)
     }
 
     func showMainFlow() {
         removeCurrentChildViewController()
 
-        dependencies.subredditService
-            .getPosts(for: "popular")
-            .subscribe(
-                onNext: { logger.debug($0) },
-                onError: { logger.error($0) }
-            ).disposed(by: disposeBag)
+        let viewController = MainFlowController(dependencies: dependencies)
+        setAsCurrentChild(viewController)
+    }
+
+    func setAsCurrentChild(_ viewController: UIViewController) {
+        addAndMoveChild(viewController)
+
+        currentChildViewController = viewController
+        logger.debug("Did set current child to \(viewController)")
     }
 
     func removeCurrentChildViewController() {
         guard let viewController = currentChildViewController else { return }
+        logger.debug("Removing current child \(viewController)")
 
         removeChild(viewController)
     }

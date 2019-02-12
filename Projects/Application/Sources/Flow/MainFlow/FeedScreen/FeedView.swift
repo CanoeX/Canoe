@@ -4,13 +4,28 @@
 //
 
 import UIKit
+import Utilities
 
 final class FeedView: UIView {
-    private lazy var collectionView: UICollectionView = createCollectionView()
+    lazy var tableView = UITableView().then {
+        $0.separatorStyle = .none
+        $0.register(FeedViewCell.self, forCellReuseIdentifier: FeedViewCell.cellIdentifier)
+    }
 
-    private func createCollectionView() -> UICollectionView {
-        let layout = UICollectionViewFlowLayout()
-        let collectionView = UICollectionView(frame: frame, collectionViewLayout: layout)
-        return collectionView
+    override var frame: CGRect {
+        didSet {
+            tableView.frame = bounds
+        }
+    }
+
+    init() {
+        super.init(frame: .zero)
+
+        backgroundColor = .white
+        addSubview(tableView)
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) is not implemented")
     }
 }

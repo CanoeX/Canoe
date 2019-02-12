@@ -15,7 +15,7 @@ public struct Post: Codable {
     public let modReasonTitle: String?
     public let gilded: Int?
     public let clicked: Bool?
-    public let title: String?
+    public let title: String
     public let linkFlairRichText: [FlairRichText]?
     public let subredditNamePrefixed: String?
     public let hidden: Bool?
@@ -216,7 +216,7 @@ public extension Post {
         modReasonTitle = try values.decodeIfPresent(String.self, forKey: .modReasonTitle)
         gilded = try values.decodeIfPresent(Int.self, forKey: .gilded)
         clicked = try values.decodeIfPresent(Bool.self, forKey: .clicked)
-        title = try values.decodeIfPresent(String.self, forKey: .title)
+        title = try values.decode(String.self, forKey: .title)
         linkFlairRichText = try values.decodeIfPresent([FlairRichText].self, forKey: .linkFlairRichText)
         subredditNamePrefixed = try values.decodeIfPresent(String.self, forKey: .subredditNamePrefixed)
         hidden = try values.decodeIfPresent(Bool.self, forKey: .hidden)

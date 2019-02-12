@@ -8,7 +8,7 @@ import Foundation
 import RxSwift
 
 public protocol SubredditService {
-    func getPosts(for subredditName: String) -> Observable<ListingContainer>
+    func getPosts(for subredditName: String) -> Observable<[Post]>
 }
 
 public protocol SubredditServiceContainer {
@@ -22,7 +22,16 @@ public final class DefaultSubredditService: SubredditService {
         self.dataSource = dataSource
     }
 
-    public func getPosts(for subredditName: String) -> Observable<ListingContainer> {
-        return dataSource.fetchPosts(for: subredditName).asObservable()
+    public func getPosts(for subredditName: String) -> Observable<[Post]> {
+        return dataSource
+            .fetchPosts(for: subredditName)
+            .asObservable()
+            .map { $0.data.children?.map(DefaultSubredditService.convertPostContainerToDomainPost) }
+            .map { $0 ?? [] }
+    }
+
+    private static func convertPostContainerToDomainPost(_ container: PostContainer) -> Domain.Post {
+        let data = container.data
+        return Domain.Post(title: data.title)
     }
 }
