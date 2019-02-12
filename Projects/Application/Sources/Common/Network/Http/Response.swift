@@ -8,11 +8,11 @@ import Foundation
 
 extension Http {
     final class Response {
-        let httpUrlResponse: HTTPURLResponse
+        let code: Int
         let body: Data?
 
-        init(httpUrlResponse: HTTPURLResponse, body: Data? = nil) {
-            self.httpUrlResponse = httpUrlResponse
+        init(code: Int, body: Data? = nil) {
+            self.code = code
             self.body = body;
         }
     }

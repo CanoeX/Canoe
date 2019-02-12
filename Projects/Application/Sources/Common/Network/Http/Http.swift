@@ -18,6 +18,7 @@ protocol RequestRetrier {
 
 // MARK: - Http core
 final class Http {
+    // MARK: - Types
     enum Method {
         case get
         case put
@@ -25,27 +26,29 @@ final class Http {
         case delete
     }
     
-    let configuration: Configuration
-    
+    typealias Headers = [String: String]
+
+    // MARK: - Members
     var adapter: RequestAdapter?
     var retrier: RequestRetrier?
     
-    private let urlSessionConfiguration: URLSessionConfiguration 
+    static let defaultHeaders: Headers = {
+        return [:]
+    }()
 
-    init(_ configuration: Configuration) {
-        self.configuration = configuration
+    private let urlSession: URLSession
+
+    // MARK: - Methods
+    init(configuration: Configuration) {
+        let sessionConfiguration = URLSessionConfiguration.default
+        sessionConfiguration.timeoutIntervalForRequest = configuration.requestTimeout
+        sessionConfiguration.httpAdditionalHeaders = 
+                Http.defaultHeaders.merging(configuration.additionalHeaders) { (_, r) in r }
         
-
+        self.urlSession = URLSession(configuration: sessionConfiguration)
     }
 
     func request(url: URL, _ method: Method = .get, body: Data? = nil) -> Request {
         return Request(urlRequest: URLRequest(url: url))
-    }
-}
-
-// MARK: - Http configuration
-extension Http {
-    struct Configuration {
-        let requestTimeout: TimeInterval
     }
 }
