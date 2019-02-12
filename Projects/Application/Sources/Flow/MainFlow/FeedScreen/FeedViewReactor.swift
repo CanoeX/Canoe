@@ -3,6 +3,7 @@
 // Licensed under the MIT license
 //
 
+import Domain
 import Foundation
 import ReactorKit
 import RxSwift

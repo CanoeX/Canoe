@@ -3,10 +3,10 @@
 // Licensed under the MIT license
 //
 
-@testable import Utilities
+@testable import Domain
 import XCTest
 
-class UtilitiesTests: XCTestCase {
+class DomainTests: XCTestCase {
     func testExample() {
     }
     func testPerformanceExample() {

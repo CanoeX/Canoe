@@ -3,6 +3,7 @@
 // Licensed under the MIT license
 //
 
+import Domain
 import RxCocoa
 import RxSwift
 import UIKit

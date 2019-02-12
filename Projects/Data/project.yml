@@ -1,0 +1,33 @@
+name: Data
+
+options:
+  bundleIdPrefix: com.canoex
+  generateEmptyDirectories: true
+  createIntermediateGroups: true
+
+targets:
+  Data:
+    platform: iOS
+    type: framework
+    configFiles:
+      Debug: Configurations/Debug.xcconfig
+      Release: Configurations/Release.xcconfig
+    sources:
+      - Sources
+    scheme:
+      testTargets:
+        - DataTests
+      gatherCoverageData: true
+    dependencies:
+      - framework: Utilities.framework
+        implicit: true
+      - framework: ../../Rome/RxCocoa.framework
+      - framework: ../../Rome/RxSwift.framework
+      - framework: ../../Rome/RxAtomic.framework
+  DataTests:
+    platform: iOS
+    type: bundle.unit-test
+    sources:
+      - Tests
+    dependencies:
+      - target: Data

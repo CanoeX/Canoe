@@ -11,8 +11,10 @@ public protocol SubredditDataSource {
     func fetchPosts(for subredditName: String) -> Single<ListingContainer>
 }
 
-final class DefaultSubredditDataSource: SubredditDataSource {
-    func fetchPosts(for subredditName: String) -> Single<ListingContainer> {
+public final class DefaultSubredditDataSource: SubredditDataSource {
+    public init() {}
+
+    public func fetchPosts(for subredditName: String) -> Single<ListingContainer> {
         guard let url = URL(string: "https://www.reddit.com/r/\(subredditName).json") else { return .never() }
 
         let request = URLRequest(url: url)

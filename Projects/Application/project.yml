@@ -15,6 +15,10 @@ targets:
     sources:
       - Sources
     dependencies:
+      - framework: Data.framework
+        implicit: true
+      - framework: Domain.framework
+        implicit: true
       - framework: Utilities.framework
         implicit: true
       - framework: ../../Rome/Crashlytics.framework

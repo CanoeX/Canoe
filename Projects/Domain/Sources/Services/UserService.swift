@@ -10,6 +10,6 @@ public protocol UserServiceContainer {
     var userService: UserService { get }
 }
 
-final class DefaultUserService: UserService {
-    init() {}
+public final class DefaultUserService: UserService {
+    public init() {}
 }

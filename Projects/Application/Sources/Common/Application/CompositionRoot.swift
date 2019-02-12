@@ -3,6 +3,9 @@
 // Licensed under the MIT license
 //
 
+import Data
+import Domain
+
 final class CompositionRoot: UserServiceContainer, SubredditServiceContainer {
     lazy var userService: UserService = {
         DefaultUserService()

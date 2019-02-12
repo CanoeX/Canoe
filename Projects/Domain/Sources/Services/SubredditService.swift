@@ -3,6 +3,7 @@
 // Licensed under the MIT license
 //
 
+import Data
 import Foundation
 import RxSwift
 
@@ -14,14 +15,14 @@ public protocol SubredditServiceContainer {
     var subredditService: SubredditService { get }
 }
 
-final class DefaultSubredditService: SubredditService {
+public final class DefaultSubredditService: SubredditService {
     private let dataSource: SubredditDataSource
 
-    init(dataSource: SubredditDataSource) {
+    public init(dataSource: SubredditDataSource) {
         self.dataSource = dataSource
     }
 
-    func getPosts(for subredditName: String) -> Observable<ListingContainer> {
+    public func getPosts(for subredditName: String) -> Observable<ListingContainer> {
         return dataSource.fetchPosts(for: subredditName).asObservable()
     }
 }

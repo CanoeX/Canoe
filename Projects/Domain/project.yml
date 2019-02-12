@@ -1,0 +1,35 @@
+name: Domain
+
+options:
+  bundleIdPrefix: com.canoex
+  generateEmptyDirectories: true
+  createIntermediateGroups: true
+
+targets:
+  Domain:
+    platform: iOS
+    type: framework
+    configFiles:
+      Debug: Configurations/Debug.xcconfig
+      Release: Configurations/Release.xcconfig
+    sources:
+      - Sources
+    scheme:
+      testTargets:
+        - DomainTests
+      gatherCoverageData: true
+    dependencies:
+      - framework: Data.framework
+        implicit: true
+      - framework: Utilities.framework
+        implicit: true
+      - framework: ../../Rome/RxCocoa.framework
+      - framework: ../../Rome/RxSwift.framework
+      - framework: ../../Rome/RxAtomic.framework
+  DomainTests:
+    platform: iOS
+    type: bundle.unit-test
+    sources:
+      - Tests
+    dependencies:
+      - target: Domain
