@@ -29,5 +29,13 @@ final class MainFlowController: UIViewController {
         super.viewDidLoad()
 
         addAndMoveChild(embedNavigationController)
+        showFeed()
+    }
+
+    private func showFeed() {
+        let reactor = FeedViewReactor(dependencies: dependencies)
+        let viewController = FeedViewController(reactor: reactor)
+
+        embedNavigationController.pushViewController(viewController, animated: false)
     }
 }
