@@ -9,22 +9,8 @@ import RxCocoa
 import RxSwift
 import UIKit
 
-final class SplashViewController: UIViewController, View {
-    typealias Reactor = SplashViewReactor
-
-    var disposeBag = DisposeBag()
-
-    init(reactor: Reactor) {
-        super.init(nibName: nil, bundle: nil)
-
-        self.reactor = reactor
-    }
-
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) is not implemented")
-    }
-
-    func bind(reactor: Reactor) {
+final class SplashViewController: BaseViewController<SplashViewReactor, UIView> {
+    override func bind(reactor: Reactor) {
         rx
             .methodInvoked(#selector(viewDidAppear))
             .map { _ in Reactor.Action.viewDidAppear }
