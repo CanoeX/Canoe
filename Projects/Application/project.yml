@@ -1,11 +1,66 @@
-include:
-  - path: Configurations/options.yml
-    relativePaths: false
-  - path: Configurations/targets.yml
-    relativePaths: false
-  - path: Configurations/schemes.yml
-    relativePaths: false
-  - path: Configurations/configs.yml
-    relativePaths: false
-
 name: Canoe
+
+options:
+  bundleIdPrefix: com.canoex
+  generateEmptyDirectories: true
+  createIntermediateGroups: true
+
+targets:
+  Canoe:
+    platform: iOS
+    type: application
+    configFiles:
+      Debug: Configurations/Debug.xcconfig
+      Release: Configurations/Release.xcconfig
+    sources:
+      - Sources
+    dependencies:
+      - framework: Utilities.framework
+        implicit: true
+      - framework: ../../Rome/Crashlytics.framework
+        embed: false
+      - framework: ../../Rome/Fabric.framework
+        embed: false
+      - framework: ../../Rome/ReactorKit.framework
+      - framework: ../../Rome/Rswift.framework
+      - framework: ../../Rome/RxCocoa.framework
+      - framework: ../../Rome/RxSwift.framework
+      - framework: ../../Rome/RxAtomic.framework
+    scheme:
+      testTargets:
+        - CanoeTests
+        - CanoeUITests
+      gatherCoverageData: true
+    preBuildScripts:
+      - name: R.swift
+        script: |
+          "../../Scripts/rswift" generate "$SRCROOT/Sources/Generated/R.generated.swift"
+        inputFiles:
+          - $TEMP_DIR/rswift-lastrun
+        outputFiles:
+          - $SRCROOT/Sources/Generated/R.generated.swift
+      - name: Swiftlint autocorrect
+        script: cd ../.. && swiftlint autocorrect
+    postCompileScripts:
+      - name: Swiftlint
+        script: cd ../.. && swiftlint
+      - name: Copy paste detector
+        script: cd ../.. && Scripts/cpd
+    postbuildScripts:
+      - name: Strip Unused Architectures from Frameworks
+        path: ../../Scripts/strip-frameworks.sh
+        runOnlyWhenInstalling: true
+  CanoeTests:
+    platform: iOS
+    type: bundle.unit-test
+    sources:
+      - Tests
+    dependencies:
+      - target: Canoe
+  CanoeUITests:
+    platform: iOS
+    type: bundle.ui-testing
+    sources:
+      - UITests
+    dependencies:
+      - target: Canoe

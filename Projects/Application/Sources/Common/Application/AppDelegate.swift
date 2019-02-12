@@ -4,6 +4,9 @@
 //
 
 import UIKit
+import Utilities
+
+var logger = Utilities.logger
 
 class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
