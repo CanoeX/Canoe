@@ -14,8 +14,8 @@ final class FeedViewController: BaseViewController<FeedViewReactor, FeedView> {
         logger.debug("Binding reactor for FeedViewController")
 
         rx
-            .methodInvoked(#selector(viewDidLoad))
-            .map { _ in Reactor.Action.viewDidLoad }
+            .methodInvoked(#selector(viewDidAppear))
+            .map { _ in Reactor.Action.viewDidAppear }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
 

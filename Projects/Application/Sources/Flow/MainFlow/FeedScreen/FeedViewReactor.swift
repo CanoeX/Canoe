@@ -22,7 +22,7 @@ final class FeedViewReactor: Reactor {
     }
 
     enum Action {
-        case viewDidLoad
+        case viewDidAppear
         case loadNextPage
     }
 
@@ -47,7 +47,7 @@ final class FeedViewReactor: Reactor {
 
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
-        case .viewDidLoad:
+        case .viewDidAppear:
             let startLoading = Observable.just(Mutation.setLoadingStatus(.refreshing))
 
             let fetchPosts = dependencies.subredditService
