@@ -14,7 +14,6 @@ extension Reactive where Base: Http.Request {
     func then() -> Single<Http.Response> {
         return Observable<Http.Response>.create { observer in
             self.base.then { response in
-                // todo: error handling
                 observer.on(.next(response))
                 observer.onCompleted()
             }

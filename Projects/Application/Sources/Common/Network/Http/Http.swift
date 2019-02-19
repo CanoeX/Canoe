@@ -18,7 +18,6 @@ protocol RequestRetrier {
 
 // MARK: - Http core
 final class Http {
-    // MARK: - Types
     enum Method {
         case get
         case put
