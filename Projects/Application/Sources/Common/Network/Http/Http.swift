@@ -28,17 +28,19 @@ final class Http {
     
     typealias Headers = [String: String]
 
-    // MARK: - Members
     var adapter: RequestAdapter?
     var retrier: RequestRetrier?
-    
-    static let defaultHeaders: Headers = {
-        return [:]
-    }()
 
     private let urlSession: URLSession
 
-    // MARK: - Methods
+    static let defaultHeaders: Headers = {
+        return [:]
+    }()
+    
+    static let `default` = {
+       return Http(configuration: .default)        
+    }()
+    
     init(configuration: Configuration) {
         let sessionConfiguration = URLSessionConfiguration.default
         sessionConfiguration.timeoutIntervalForRequest = configuration.requestTimeout
@@ -48,6 +50,7 @@ final class Http {
         self.urlSession = URLSession(configuration: sessionConfiguration)
     }
 
+    @discardableResult
     func request(url: URL, _ method: Method = .get, body: Data? = nil) -> Request {
         return Request(urlRequest: URLRequest(url: url))
     }
