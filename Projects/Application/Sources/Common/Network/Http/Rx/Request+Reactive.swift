@@ -17,7 +17,7 @@ extension Reactive where Base: Http.Request {
                 observer.on(.next(response))
                 observer.onCompleted()
             }
-            
+
             return Disposables.create {
                 self.base.cancel()
             }

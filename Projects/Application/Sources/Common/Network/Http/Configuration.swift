@@ -11,9 +11,13 @@ extension Http {
         let requestTimeout: TimeInterval
         let additionalHeaders: Headers
 
+        static let defaultHeaders: Headers = {
+            [:]
+        }()
+
         static let `default` = Configuration(
                 requestTimeout: 1.minutes,
-                additionalHeaders: Http.defaultHeaders
+                additionalHeaders: defaultHeaders
         )
     }
 }

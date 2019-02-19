@@ -13,7 +13,7 @@ extension Http {
 
         init(code: Int, body: Data? = nil) {
             self.code = code
-            self.body = body;
+            self.body = body
         }
     }
 }

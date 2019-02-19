@@ -9,15 +9,15 @@ import Foundation
 extension Http {
     final class Request {
         let urlRequest: URLRequest
-        
+
         init(urlRequest: URLRequest) {
             self.urlRequest = urlRequest
         }
-        
+
         func then(completionHandler: @escaping (Response) -> Void) {
             completionHandler(Response(code: 200))
         }
-        
+
         func cancel() {
         }
     }

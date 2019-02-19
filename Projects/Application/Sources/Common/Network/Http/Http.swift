@@ -24,7 +24,7 @@ final class Http {
         case post
         case delete
     }
-    
+
     typealias Headers = [String: String]
 
     var adapter: RequestAdapter?
@@ -32,20 +32,16 @@ final class Http {
 
     private let urlSession: URLSession
 
-    static let defaultHeaders: Headers = {
-        return [:]
-    }()
-    
     static let `default` = {
-       return Http(configuration: .default)        
+       Http(configuration: .default)
     }()
-    
+
     init(configuration: Configuration) {
         let sessionConfiguration = URLSessionConfiguration.default
         sessionConfiguration.timeoutIntervalForRequest = configuration.requestTimeout
-        sessionConfiguration.httpAdditionalHeaders = 
-                Http.defaultHeaders.merging(configuration.additionalHeaders) { (_, r) in r }
-        
+        sessionConfiguration.httpAdditionalHeaders =
+                Configuration.defaultHeaders.merging(configuration.additionalHeaders) { _, r in r }
+
         self.urlSession = URLSession(configuration: sessionConfiguration)
     }
 
