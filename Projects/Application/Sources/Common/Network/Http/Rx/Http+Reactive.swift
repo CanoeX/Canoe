@@ -11,4 +11,7 @@ extension Http: ReactiveCompatible {
 }
 
 extension Reactive where Base: Http {
+    func request(_ url: URL, _ method: Http.Method = .get, body: Data? = nil) -> Reactive<Http.Request> {
+        return base.request(url, method, body: body).rx
+    }
 }

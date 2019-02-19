@@ -10,7 +10,7 @@ extension Http {
     final class Request {
         let urlRequest: URLRequest
 
-        init(urlRequest: URLRequest) {
+        init(from urlRequest: URLRequest) {
             self.urlRequest = urlRequest
         }
 

@@ -46,7 +46,7 @@ final class Http {
     }
 
     @discardableResult
-    func request(url: URL, _ method: Method = .get, body: Data? = nil) -> Request {
-        return Request(urlRequest: URLRequest(url: url))
+    func request(_ url: URL, _ method: Method = .get, body: Data? = nil) -> Request {
+        return Request(from: URLRequest(url: url))
     }
 }
