@@ -7,13 +7,8 @@
 import Foundation
 
 extension Http {
-    final class Response {
+    struct Response {
         let code: Int
         let body: Data?
-
-        init(code: Int, body: Data? = nil) {
-            self.code = code
-            self.body = body
-        }
     }
 }

@@ -45,7 +45,6 @@ final class Http {
         self.urlSession = URLSession(configuration: sessionConfiguration)
     }
 
-    @discardableResult
     func request(_ url: URL, _ method: Method = .get, body: Data? = nil) -> Request {
         return Request(from: URLRequest(url: url))
     }
