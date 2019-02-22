@@ -29,6 +29,7 @@ final class FeedViewReactor: Reactor {
     enum Mutation {
         case setLoadingStatus(LoadingStatus)
         case setPosts([Post])
+        case appendPosts([Post])
     }
 
     struct State {
@@ -48,6 +49,8 @@ final class FeedViewReactor: Reactor {
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
         case .viewDidAppear:
+            guard currentState.loadingStatus == .none else { return  .empty() }
+
             let startLoading = Observable.just(Mutation.setLoadingStatus(.refreshing))
 
             let fetchPosts = dependencies.subredditService
@@ -57,7 +60,16 @@ final class FeedViewReactor: Reactor {
             let finishLoading = Observable.just(Mutation.setLoadingStatus(.none))
             return .concat(startLoading, fetchPosts, finishLoading)
         case .loadNextPage:
-            return .empty()
+            guard currentState.loadingStatus == .none else { return  .empty() }
+
+            let startLoading = Observable.just(Mutation.setLoadingStatus(.loadingNextPage))
+
+            let fetchPosts = dependencies.subredditService
+                .getPosts(for: "popular")
+                .map { Mutation.appendPosts($0) }
+
+            let finishLoading = Observable.just(Mutation.setLoadingStatus(.none))
+            return .concat(startLoading, fetchPosts, finishLoading)
         }
     }
 
@@ -68,7 +80,24 @@ final class FeedViewReactor: Reactor {
             newState.loadingStatus = status
         case let .setPosts(posts):
             newState.postReactors = posts.map { FeedViewCellReactor(post: $0) }
+        case let .appendPosts(posts):
+            newState.postReactors += posts.map { FeedViewCellReactor(post: $0) }
         }
         return newState
+    }
+}
+
+extension FeedViewReactor.LoadingStatus: Equatable {
+    public static func == (lhs: FeedViewReactor.LoadingStatus, rhs: FeedViewReactor.LoadingStatus) -> Bool {
+        switch (lhs, rhs) {
+        case (.none, .none):
+            return true
+        case (.loadingNextPage, .loadingNextPage):
+            return true
+        case (.refreshing, .refreshing):
+            return true
+        default:
+            return false
+        }
     }
 }
