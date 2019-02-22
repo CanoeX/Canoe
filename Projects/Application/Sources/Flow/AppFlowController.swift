@@ -54,6 +54,6 @@ final class AppFlowController: BaseFlowController<UserServiceContainer & Subredd
         guard let viewController = currentChildViewController else { return }
         logger.debug("Removing current child \(viewController)")
 
-        removeChild(viewController)
+        viewController.removeChildFromParent()
     }
 }

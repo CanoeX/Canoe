@@ -305,6 +305,6 @@ public extension Post {
         media = try values.decodeIfPresent(Media.self, forKey: .media)
         isVideo = try values.decodeIfPresent(Bool.self, forKey: .isVideo)
     }
-    // swiftlint:enable identifier_name
+    // swiftlint:enable function_body_length
 }
 // swiftlint:enable discouraged_optional_boolean

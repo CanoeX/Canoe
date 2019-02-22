@@ -8,12 +8,12 @@ IFS=$'\n\t'
 cd "${0%/*}/.."
 
 pmd cpd \
-	--files Projects/Application/Sources \
-	--exclude Projects/Application/Sources/Generated \
-	--minimum-tokens 50 \
+    --files Projects/Application/Sources \
+    --exclude Projects/Application/Sources/Generated \
+    --minimum-tokens 50 \
     --language swift \
     --encoding UTF-8 \
-	--format net.sourceforge.pmd.cpd.XMLRenderer \
+    --format net.sourceforge.pmd.cpd.XMLRenderer \
     --failOnViolation false \
     >cpd-output.xml
 
