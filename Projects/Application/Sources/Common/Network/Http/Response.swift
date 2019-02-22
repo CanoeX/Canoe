@@ -9,6 +9,6 @@ import Foundation
 extension Http {
     struct Response {
         let code: Int
-        let body: Data?
+        let body: Data? = nil
     }
 }
