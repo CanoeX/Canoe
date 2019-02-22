@@ -1,8 +1,0 @@
-targets:
-  CanoeUITests:
-    platform: iOS
-    type: bundle.ui-testing
-    sources:
-      - UITests
-    dependencies:
-      - target: Canoe

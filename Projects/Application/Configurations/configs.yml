@@ -1,6 +1,0 @@
-configs:
-
-  Development Debug: debug
-  Production Debug: debug
-  Development Release: release
-  Production Release: release

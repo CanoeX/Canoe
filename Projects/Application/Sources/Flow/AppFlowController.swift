@@ -3,26 +3,57 @@
 // Licensed under the MIT license
 //
 
+import Domain
+import RxCocoa
+import RxSwift
 import UIKit
+import Utilities
 
-final class AppFlowController: UIViewController {
-    typealias Dependencies = UserServiceContainer
+final class AppFlowController: BaseFlowController<UserServiceContainer & SubredditServiceContainer> {
+    private var currentChildViewController: UIViewController?
 
-    private let dependencies: Dependencies
+    override func viewDidLoad() {
+        super.viewDidLoad()
 
-    init(dependencies: Dependencies) {
-        self.dependencies = dependencies
-
-        super.init(nibName: nil, bundle: nil)
-    }
-
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) is not implemented")
+        showSplashScreen()
     }
 
     func showSplashScreen() {
+        removeCurrentChildViewController()
+
+        let reactor = SplashViewReactor()
+        reactor.callback
+            .bind { [weak self] callback in
+                switch callback {
+                case .didFinishLoading:
+                    self?.showMainFlow()
+                }
+            }
+            .disposed(by: disposeBag)
+
+        let viewController = SplashViewController(reactor: reactor)
+
+        setAsCurrentChild(viewController)
     }
 
     func showMainFlow() {
+        removeCurrentChildViewController()
+
+        let viewController = MainFlowController(dependencies: dependencies)
+        setAsCurrentChild(viewController)
+    }
+
+    func setAsCurrentChild(_ viewController: UIViewController) {
+        addAndMoveChild(viewController)
+
+        currentChildViewController = viewController
+        logger.debug("Did set current child to \(viewController)")
+    }
+
+    func removeCurrentChildViewController() {
+        guard let viewController = currentChildViewController else { return }
+        logger.debug("Removing current child \(viewController)")
+
+        viewController.removeChildFromParent()
     }
 }
