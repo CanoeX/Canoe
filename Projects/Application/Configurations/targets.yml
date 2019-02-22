@@ -1,7 +1,0 @@
-include:
-  - path: Targets/Canoe.yml
-    relativePaths: false
-  - path: Targets/CanoeTests.yml
-    relativePaths: false
-  - path: Targets/CanoeUITests.yml
-    relativePaths: false

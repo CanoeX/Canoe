@@ -15,10 +15,11 @@ dependencies:
 	brew install pmd || brew outdated pmd || brew upgrade pmd
 
 generate: clean
-	# Generate R.swift empty files and project files
+	# Generate R.swift empty files
+	mkdir -p "Projects/Application/Sources/Generated"
+	touch "Projects/Application/Sources/Generated/R.generated.swift"
+	# Generate project files
 	for i in Projects/*/project.yml; do \
-		mkdir -p "$${i%/*}/Sources/Generated" && \
-		touch "$${i%/*}/Sources/Generated/R.generated.swift" && \
 		xcodegen --spec $$i --project $${i%/*};done
 	# Generate workspace
 	mkdir -p $(WORKSPACE)
@@ -44,16 +45,12 @@ hooks:
 	./Scripts/Git/Hooks/install.sh
 
 test:
-ifeq ($(TRAVIS_BRANCH), master)
-	$(eval $@_SCHEME := Production)
-else
-	$(eval $@_SCHEME := Development)
-endif
-	set -o pipefail && xcodebuild \
-	clean test \
-	-workspace Canoe.xcworkspace \
-	-scheme Canoe\ $($@_SCHEME) \
-	-destination platform\=iOS\ Simulator,OS\=12.1,name\=iPhone\ 8 \
-	CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO ONLY_ACTIVE_ARCH=NO \
-	| xcpretty
+	for i in Projects/*/*.xcodeproj; do \
+		set -o pipefail && xcodebuild \
+		clean test \
+		-workspace Canoe.xcworkspace \
+		-scheme $$(basename $$i .xcodeproj) \
+		-destination platform\=iOS\ Simulator,OS\=12.1,name\=iPhone\ 8 \
+		CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO ONLY_ACTIVE_ARCH=NO \
+		| xcpretty; done
 

@@ -1,4 +1,0 @@
-options:
-  bundleIdPrefix: com.canoex
-  generateEmptyDirectories: true
-  createIntermediateGroups: true

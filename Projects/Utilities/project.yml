@@ -1,0 +1,27 @@
+name: Utilities
+
+options:
+  bundleIdPrefix: com.canoex
+  generateEmptyDirectories: true
+  createIntermediateGroups: true
+
+targets:
+  Utilities:
+    platform: iOS
+    type: framework
+    configFiles:
+      Debug: Configurations/Debug.xcconfig
+      Release: Configurations/Release.xcconfig
+    sources:
+      - Sources
+    scheme:
+      testTargets:
+        - UtilitiesTests
+      gatherCoverageData: true
+  UtilitiesTests:
+    platform: iOS
+    type: bundle.unit-test
+    sources:
+      - Tests
+    dependencies:
+      - target: Utilities
