@@ -1,0 +1,31 @@
+name: HTTP
+
+options:
+  bundleIdPrefix: com.canoex
+  generateEmptyDirectories: true
+  createIntermediateGroups: true
+
+targets:
+  HTTP:
+    platform: iOS
+    type: framework
+    configFiles:
+      Debug: Configurations/Debug.xcconfig
+      Release: Configurations/Release.xcconfig
+    sources:
+      - Sources
+    dependencies:
+      - framework: Utilities.framework
+        implicit: true
+      - framework: ../../Rome/RxSwift.framework
+    scheme:
+      testTargets:
+        - HTTPTests
+      gatherCoverageData: true
+  HTTPTests:
+    platform: iOS
+    type: bundle.unit-test
+    sources:
+      - Tests
+    dependencies:
+      - target: HTTP
