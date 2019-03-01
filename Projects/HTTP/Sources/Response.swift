@@ -7,5 +7,5 @@ import Foundation
 
 public struct Response {
     public let code: Int
-    public let body: Data? = nil
+    public let body: Data?
 }

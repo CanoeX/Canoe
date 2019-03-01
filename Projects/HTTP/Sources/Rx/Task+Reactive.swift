@@ -6,13 +6,16 @@
 import Foundation
 import RxSwift
 
-extension Task: ReactiveCompatible {
+extension DataTask: ReactiveCompatible {
 }
 
-public extension Reactive where Base: Task {
+public extension Reactive where Base: DataTask {
     public func then() -> Single<Response> {
         return Single.create { observer in
-            self.base.then { response in
+            self.base.then { response, error in
+//                if let error = error {
+//                    
+//                }
                 observer(.success(response))
             }
 

@@ -27,11 +27,11 @@ public typealias Headers = [String: String]
 
 // MARK: - HTTP core
 public final class Client {
-
     public var adapter: RequestAdapter?
     public var retrier: RequestRetrier?
 
     private let urlSession: URLSession
+    private let sessionDelegate = SessionDelegate()
 
     public static let `default` = {
         Client(configuration: .default)
@@ -42,11 +42,19 @@ public final class Client {
         sessionConfiguration.timeoutIntervalForRequest = configuration.requestTimeout
         sessionConfiguration.httpAdditionalHeaders = configuration.headers
 
-        self.urlSession = URLSession(configuration: sessionConfiguration)
+        self.urlSession = URLSession(configuration: sessionConfiguration, delegate: sessionDelegate)
     }
 
-    public func request(_ url: URL, _ method: Method = .get, body: Data? = nil) -> Task {
+    public func request(_ url: URL, _ method: Method = .get, body: Data? = nil) -> DataTask {
         let request = Request(from: URLRequest(url: url))
-        return Task(from: request)
+        
+        let task = DataTask(from: request, wrapping: urlSession.dataTask(with: request.urlRequest))
+        sessionDelegate.addNew(task: task)
+        
+        return task 
     }
 }
+
+// todo:
+// 2. error handling, including authentication, redirection(?), maybe something else
+// 3. assigning completion in a thread safe way
