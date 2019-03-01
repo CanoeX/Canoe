@@ -11,19 +11,42 @@ internal protocol TaskDelegate {
 }
 
 public final class DataTask {
+    // this enum does not belong here
+    public enum Result {
+        case success(Response)
+        case error(Error)
+    }
+    
+    public typealias CompletionHandler = (Result) -> Void
+    
     public let request: Request
     public let urlSessionTask: URLSessionDataTask
     
     private var accumulatedData: Data? = nil
+    
+    internal typealias TaskFinishedHandler = (_ response: Response, _ error: Error?, _ taskCompletionHandler: CompletionHandler) -> Void
+    private var onTaskFinished: TaskFinishedHandler
+    
+    private var onUrlTaskFinished: (_ response: HTTPURLResponse, _ error: Error?) -> Void = {_, _ in}
 
-    public init(from request: Request, wrapping task: URLSessionDataTask) {
+    internal init(from request: Request, 
+                wrapping task: URLSessionDataTask, 
+                _ onTaskFinished: @escaping TaskFinishedHandler) {
+        self.request = request
         self.urlSessionTask = task
-        start()
+        self.onTaskFinished = onTaskFinished
+        
+//        start()
     }
 
-    public func then(completionHandler: @escaping (Response, Error?) -> Void) {
-        // perhaps the alamofire way - execute through the queue
-        completionHandler(Response(code: 200))
+    public func then(completionHandler: @escaping CompletionHandler) {
+        self.onUrlTaskFinished = { [weak self] response, error in
+            guard let `self` = self else { return }
+            self.onTaskFinished(Response(code: response.statusCode, body: self.accumulatedData), error, completionHandler)
+        }
+        
+        // todo: for now, start the request only when it's "subscribed" to. Later find out a way to thread-safely assign completion handler
+        self.start()
     }
 
     public func cancel() {
@@ -38,13 +61,8 @@ public final class DataTask {
 // MARK: - TaskDelegate
 extension DataTask: TaskDelegate {
     func didCompleteWith(error: Error?) {
-        let statusCode = -1
-        
-        if let response = urlSessionTask.response as? HTTPURLResponse {
-            statusCode = response.statusCode
-        }
-        
-        let response = Response(statusCode, accumulatedData)
+        guard let response = urlSessionTask.response as? HTTPURLResponse else { return } 
+        onUrlTaskFinished(response, error)
     }
 
     func didReceive(data: Data) {

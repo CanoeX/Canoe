@@ -12,11 +12,13 @@ extension DataTask: ReactiveCompatible {
 public extension Reactive where Base: DataTask {
     public func then() -> Single<Response> {
         return Single.create { observer in
-            self.base.then { response, error in
-//                if let error = error {
-//                    
-//                }
-                observer(.success(response))
+            self.base.then { result in
+                switch result {
+                case .success(let response):
+                    observer(.success(response))
+                case .error(let error):
+                    observer(.error(error))
+                }
             }
 
             return Disposables.create {

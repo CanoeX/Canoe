@@ -44,9 +44,9 @@ final class FeedViewController: BaseViewController<FeedViewReactor, FeedView>, U
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        guard let reactor = reactor?.currentState.postReactors[indexPath.row] else { 
+        guard let reactor = reactor?.currentState.postReactors[indexPath.row] else {
             assertionFailure("Can't find reactor for row: \(indexPath.row)")
-            return 40.0 
+            return 40.0
         }
         return FeedViewCell.height(fits: currentView.tableView.frame.width, reactor: reactor)
     }

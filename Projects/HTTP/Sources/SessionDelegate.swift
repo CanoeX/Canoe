@@ -5,10 +5,10 @@
 
 import Foundation
 
-internal final class SessionDelegate {
+internal final class SessionDelegate: NSObject {
     typealias URLTaskIdentifier = Int
     
-    private let taskDelegates: [URLTaskIdentifier: TaskDelegate]
+    private var taskDelegates = [URLTaskIdentifier: TaskDelegate]()
     
     func addNew(task: DataTask) {
         taskDelegates[task.urlSessionTask.taskIdentifier] = task

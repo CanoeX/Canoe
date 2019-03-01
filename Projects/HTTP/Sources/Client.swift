@@ -32,6 +32,7 @@ public final class Client {
 
     private let urlSession: URLSession
     private let sessionDelegate = SessionDelegate()
+    private let validator = Validator()
 
     public static let `default` = {
         Client(configuration: .default)
@@ -42,13 +43,30 @@ public final class Client {
         sessionConfiguration.timeoutIntervalForRequest = configuration.requestTimeout
         sessionConfiguration.httpAdditionalHeaders = configuration.headers
 
-        self.urlSession = URLSession(configuration: sessionConfiguration, delegate: sessionDelegate)
+        self.urlSession = URLSession(configuration: sessionConfiguration, delegate: sessionDelegate, delegateQueue: nil)
     }
 
     public func request(_ url: URL, _ method: Method = .get, body: Data? = nil) -> DataTask {
         let request = Request(from: URLRequest(url: url))
+        let urlTask = urlSession.dataTask(with: request.urlRequest)
+
+        let task = DataTask(from: request,
+                            wrapping: urlTask) { [weak self] response, error, userCompletionHandler in
+            guard let `self` = self else { return }
+            
+            let result: DataTask.Result = {
+                switch self.validator.validate(response: response) {
+                case .error(let validationError):
+                    return DataTask.Result.error(validationError)
+                case .success:
+                    return DataTask.Result.success(response)
+                }
+            }()
+
+            // todo: retries
+            userCompletionHandler(result)
+        }
         
-        let task = DataTask(from: request, wrapping: urlSession.dataTask(with: request.urlRequest))
         sessionDelegate.addNew(task: task)
         
         return task 
@@ -56,5 +74,5 @@ public final class Client {
 }
 
 // todo:
-// 2. error handling, including authentication, redirection(?), maybe something else
-// 3. assigning completion in a thread safe way
+// 1. error handling, including authentication, redirection(?), maybe something else
+// 2. add a way to inject the disatcher queue(?)
