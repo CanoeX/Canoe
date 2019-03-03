@@ -5,13 +5,23 @@
 
 import Foundation
 
-internal final class SessionDelegate: NSObject {
+internal protocol SessionHandling: URLSessionDelegate {
     typealias URLTaskIdentifier = Int
+    var taskDelegates: [URLTaskIdentifier: TaskDelegate] { get }
     
-    private var taskDelegates = [URLTaskIdentifier: TaskDelegate]()
-    
-    func addNew(task: DataTask) {
+    func registerTask(task: DataTask)
+    func unregisterTask(task: DataTask)
+}
+
+internal final class SessionDelegate: NSObject, SessionHandling {
+    var taskDelegates: [URLTaskIdentifier: TaskDelegate] = [:]
+
+    func registerTask(task: DataTask) {
         taskDelegates[task.urlSessionTask.taskIdentifier] = task
+    }
+
+    func unregisterTask(task: DataTask) {
+        taskDelegates.removeValue(forKey: task.urlSessionTask.taskIdentifier)
     }
 }
 

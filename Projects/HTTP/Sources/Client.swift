@@ -31,17 +31,20 @@ public final class Client {
     public var retrier: RequestRetrier?
 
     private let urlSession: URLSession
-    private let sessionDelegate = SessionDelegate()
-    private let validator = Validator()
+    private let sessionDelegate: SessionHandling = SessionDelegate()
+    private let validator: ResponseValidating
 
     public static let `default` = {
         Client(configuration: .default)
     }()
 
-    public init(configuration: Configuration) {
+    public init(configuration: Configuration, 
+                validator: ResponseValidating? = nil) {
         let sessionConfiguration = URLSessionConfiguration.default
         sessionConfiguration.timeoutIntervalForRequest = configuration.requestTimeout
         sessionConfiguration.httpAdditionalHeaders = configuration.headers
+        
+        self.validator = validator ?? Validator()
 
         self.urlSession = URLSession(configuration: sessionConfiguration, delegate: sessionDelegate, delegateQueue: nil)
     }
@@ -50,8 +53,9 @@ public final class Client {
         let request = Request(from: URLRequest(url: url))
         let urlTask = urlSession.dataTask(with: request.urlRequest)
 
-        let task = DataTask(from: request,
-                            wrapping: urlTask) { [weak self] response, error, userCompletionHandler in
+        let task = DataTask(from: request, wrapping: urlTask)
+        
+        task.onTaskFinished = { [weak self] response, error, userCompletionHandler in
             guard let `self` = self else { return }
             
             let result: DataTask.Result = {
@@ -64,10 +68,11 @@ public final class Client {
             }()
 
             // todo: retries
+            self.sessionDelegate.unregisterTask(task: task)
             userCompletionHandler(result)
         }
         
-        sessionDelegate.addNew(task: task)
+        sessionDelegate.registerTask(task: task)
         
         return task 
     }
@@ -75,4 +80,4 @@ public final class Client {
 
 // todo:
 // 1. error handling, including authentication, redirection(?), maybe something else
-// 2. add a way to inject the disatcher queue(?)
+// 2. add a way to inject the dispatcher queue(?)

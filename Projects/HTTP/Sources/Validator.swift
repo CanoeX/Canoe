@@ -5,19 +5,23 @@
 
 import Foundation
 
-internal final class Validator {
-    enum Result {
-        case success
-        case error(Error)
-    }
+public enum ValidationResult {
+    case success
+    case error(Error)
+}
 
-    enum ValidationError: Error {
-        case unacceptableStatusCode(Int)
-    }
-    
+public enum ValidationError: Error {
+    case unacceptableStatusCode(Int)
+}
+
+public protocol ResponseValidating {
+    func validate(response: Response) -> ValidationResult
+}
+
+internal final class Validator: ResponseValidating {
     var acceptableStatusCodes = Array(200..<300)
     
-    func validate(response: Response) -> Result {
+    func validate(response: Response) -> ValidationResult {
         if !acceptableStatusCodes.contains(response.code) {
             return .error(ValidationError.unacceptableStatusCode(response.code))
         }
