@@ -20,7 +20,7 @@ public protocol ResponseValidating {
 
 internal final class Validator: ResponseValidating {
     var acceptableStatusCodes = Array(200..<300)
-    
+
     func validate(response: Response) -> ValidationResult {
         if !acceptableStatusCodes.contains(response.code) {
             return .error(ValidationError.unacceptableStatusCode(response.code))

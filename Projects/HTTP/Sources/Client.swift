@@ -16,11 +16,11 @@ public protocol RequestRetrier {
 }
 
 // MARK: - HTTP methods
-public enum Method {
-    case get
-    case put
-    case post
-    case delete
+public enum Method: String {
+    case get = "GET"
+    case put = "PUT"
+    case post = "POST"
+    case delete = "DELETE"
 }
 
 public typealias Headers = [String: String]
@@ -50,14 +50,24 @@ public final class Client {
     }
 
     public func request(_ url: URL, _ method: Method = .get, body: Data? = nil) -> DataTask {
-        let request = Request(from: URLRequest(url: url))
+        // todo: need to test if the headers were actually applied
+        let request: Request = {
+            let initialRequest = Request(from: URLRequest(url: url, method: method))
+            if let adapter = self.adapter {
+                return adapter.adapt(request: initialRequest)
+            }
+            
+            return initialRequest
+        }()
+        
         let urlTask = urlSession.dataTask(with: request.urlRequest)
 
-        let task = DataTask(from: request, wrapping: urlTask)
-        
-        task.onTaskFinished = { [weak self] response, error, userCompletionHandler in
+        let task = DataTask(from: request, wrapping: urlTask) { [weak self] task,
+                                                                            response,
+                                                                            error,
+                                                                            userCompletionHandler in
             guard let `self` = self else { return }
-            
+
             let result: DataTask.Result = {
                 switch self.validator.validate(response: response) {
                 case .error(let validationError):
@@ -67,14 +77,18 @@ public final class Client {
                 }
             }()
 
-            // todo: retries
             self.sessionDelegate.unregisterTask(task: task)
-            userCompletionHandler(result)
+            
+            if let retrier = self.retrier {
+                self.request(url, method, body: body)
+            } else {
+                userCompletionHandler(result)
+            }
         }
         
         sessionDelegate.registerTask(task: task)
         
-        return task 
+        return task
     }
 }
 

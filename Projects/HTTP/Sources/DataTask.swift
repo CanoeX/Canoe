@@ -21,16 +21,21 @@ public final class DataTask {
     public let request: Request
     public let urlSessionTask: URLSessionDataTask
     
-    internal typealias TaskFinishedHandler = (_ response: Response, _ error: Error?, _ taskCompletionHandler: CompletionHandler) -> Void
-    internal var onTaskFinished: TaskFinishedHandler?
+    public typealias TaskFinishedHandler = (_ task: DataTask,
+                                              _ response: Response,
+                                              _ error: Error?,
+                                              _ taskCompletionHandler: CompletionHandler) -> Void
+    private var onTaskFinished: TaskFinishedHandler
 
     private var accumulatedData: Data? = nil
     private var onUrlTaskFinished: (_ response: HTTPURLResponse, _ error: Error?) -> Void = {_, _ in}
 
     public init(from request: Request, 
-                wrapping task: URLSessionDataTask) {
+                wrapping task: URLSessionDataTask,
+                _ completionHandler: @escaping TaskFinishedHandler) {
         self.request = request
         self.urlSessionTask = task
+        self.onTaskFinished = completionHandler
         
 //        start()
     }
@@ -38,7 +43,7 @@ public final class DataTask {
     public func then(completionHandler: @escaping CompletionHandler) {
         self.onUrlTaskFinished = { [weak self] response, error in
             guard let `self` = self else { return }
-            self.onTaskFinished?(Response(code: response.statusCode, body: self.accumulatedData), error, completionHandler)
+            self.onTaskFinished(self, Response(code: response.statusCode, body: self.accumulatedData), error, completionHandler)
         }
         
         // todo: for now, start the request only when it's "subscribed" to. Later find out a way to thread-safely assign completion handler
