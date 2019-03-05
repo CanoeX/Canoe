@@ -27,7 +27,6 @@ public typealias Headers = [String: String]
 
 // MARK: - HTTP core
 public final class Client {
-
     public var adapter: RequestAdapter?
     public var retrier: RequestRetrier?
 

@@ -10,7 +10,7 @@ extension Task: ReactiveCompatible {
 }
 
 public extension Reactive where Base: Task {
-    public func then() -> Single<Response> {
+    func then() -> Single<Response> {
         return Single.create { observer in
             self.base.then { response in
                 observer(.success(response))
