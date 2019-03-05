@@ -7,7 +7,7 @@ import Foundation
 
 public struct Request {
     public let urlRequest: URLRequest
-    
+
     public init(from urlRequest: URLRequest) {
         self.urlRequest = urlRequest
     }

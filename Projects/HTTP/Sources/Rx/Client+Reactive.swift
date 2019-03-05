@@ -10,7 +10,7 @@ extension Client: ReactiveCompatible {
 }
 
 public extension Reactive where Base: Client {
-    public func request(_ url: URL, _ method: Method = .get, body: Data? = nil) -> Reactive<Task> {
+    func request(_ url: URL, _ method: Method = .get, body: Data? = nil) -> Reactive<Task> {
         return base.request(url, method, body: body).rx
     }
 }

@@ -6,19 +6,19 @@
 import Foundation
 
 public extension Double {
-    public var milliseconds: TimeInterval {
+    var milliseconds: TimeInterval {
         return TimeInterval(self / 1000)
     }
 
-    public var seconds: TimeInterval {
+    var seconds: TimeInterval {
         return TimeInterval(self)
     }
 
-    public var minutes: TimeInterval {
+    var minutes: TimeInterval {
         return TimeInterval(self * 60)
     }
 
-    public var hours: TimeInterval {
+    var hours: TimeInterval {
         return TimeInterval(self.minutes * 60)
     }
 }

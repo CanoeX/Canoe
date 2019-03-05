@@ -12,14 +12,14 @@ public struct Configuration {
     }()
 
     public static let `default` = Configuration(
-            requestTimeout: 1.minutes,
-            additionalHeaders: defaultHeaders
+        requestTimeout: 1.minutes,
+        additionalHeaders: defaultHeaders
     )
-    
+
     public let requestTimeout: TimeInterval
     private let additionalHeaders: Headers
-    
+
     public var headers: Headers {
-        return Configuration.defaultHeaders.merging(additionalHeaders, uniquingKeysWith: {_, r in r})
+        return Configuration.defaultHeaders.merging(additionalHeaders, uniquingKeysWith: { _, rhs in rhs })
     }
 }
